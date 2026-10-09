@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import SafetyLab from './SafetyLab.jsx';
 
 const nav = [
   ['价值主张', 'value'], ['旗舰案例', 'cockpit'], ['产品证据', 'evidence'],
-  ['经历', 'journey'], ['正在构建', 'building'], ['联系', 'contact']
+  ['经历', 'journey'], ['产品 Demo', 'lab'], ['联系', 'contact']
 ];
 
 const capability = [
@@ -162,9 +163,11 @@ function App() {
       <section id="building" className="building-section section-shell">
         <div className="section-label"><span>正在构建</span></div>
         <div className="build-copy"><h2>Clinical AI Evidence &amp; Safety Lab</h2><p>面向临床 AI 的证据、安全和产品准入开源工具。</p></div>
-        <div className="roadmap" aria-label="产品路线图">{['需求定义','核心功能开发','内部测试','开源发布','持续迭代'].map((x,i)=><div className={i<2?'done':i===2?'current':''} key={x}><span/>{x}</div>)}</div>
-        <div className="status"><span>当前状态</span><strong>开发中</strong></div>
+        <div className="roadmap" aria-label="产品路线图">{['需求定义','核心功能开发','内部测试','开源发布','持续迭代'].map((x,i)=><div className={i<3?'done':i===3?'current':''} key={x}><span/>{x}</div>)}</div>
+        <div className="status"><span>当前状态</span><strong>v0.1 内测</strong></div>
       </section>
+
+      <SafetyLab />
     </main>
 
     <footer id="contact" className="site-footer section-shell">

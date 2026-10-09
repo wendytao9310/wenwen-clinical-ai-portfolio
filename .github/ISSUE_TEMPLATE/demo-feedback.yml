@@ -1,0 +1,66 @@
+name: Demo feedback
+description: 对 Evidence & Safety Lab 的流程、可理解性和安全边界提出反馈（请勿提交任何健康或身份信息）
+title: "[Demo feedback] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢测试。此 Demo 仅用于研究与产品评估，不用于患者照护或临床决策。
+        **请勿填写患者记录、诊断、身份信息、病历文本或其他敏感数据。**
+  - type: dropdown
+    id: role
+    attributes:
+      label: 你的测试角色
+      options:
+        - 临床/医学专业人员
+        - 临床研究人员
+        - 医疗 AI / 数据人员
+        - 产品 / 设计人员
+        - 质量 / 合规 / 安全人员
+        - 普通公众
+    validations:
+      required: true
+  - type: dropdown
+    id: task
+    attributes:
+      label: 你完成了哪个任务？
+      options:
+        - 定义预期用途
+        - 检查证据缺口
+        - 测试安全等级
+        - 测试禁止用途拦截
+        - 移动端/可访问性检查
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: 最困惑或最容易误解的地方
+      placeholder: 只描述界面与流程，不要填写真实患者案例。
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: 问题严重度
+      options:
+        - S1 安全关键：可能导致错误理解用途或边界
+        - S2 任务阻断：无法完成核心流程
+        - S3 体验问题：可以完成但明显困难
+        - S4 建议：优化文案或视觉
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 你期望怎样改进？
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我确认本反馈不包含患者数据、身份信息或其他敏感健康信息。
+          required: true

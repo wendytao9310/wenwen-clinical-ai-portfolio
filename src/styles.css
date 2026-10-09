@@ -13,3 +13,42 @@
 @media(max-width:700px){.hero{padding-top:26px}.hero-copy{padding:28px 0 22px}.hero h1{font-size:clamp(34px,10.5vw,44px)}.hero h1 span{white-space:normal}}
 @media(max-width:400px){.site-header{grid-template-columns:auto 1fr}.menu-button{justify-self:end}.header-resume{display:none}.hero h1{font-size:32px;letter-spacing:-.045em}}
 .manuscript-evidence{margin:20px 0 0 104px;padding:20px 24px;display:grid;grid-template-columns:150px 1fr;gap:24px;border-left:4px solid var(--amber);background:#fff9ed}.manuscript-evidence>span{font-weight:760;color:#7a5614}.manuscript-evidence strong{line-height:1.5}.manuscript-evidence p{margin:8px 0 0;color:var(--muted);line-height:1.65}.manuscript-evidence em{font-style:italic}@media(max-width:1000px){.manuscript-evidence{margin-left:0}}@media(max-width:700px){.manuscript-evidence{grid-template-columns:1fr;gap:10px}}
+
+/* Evidence & Safety Lab: extends the approved portfolio system into a usable product surface. */
+.lab-section{padding-top:72px;padding-bottom:78px;background:#f3f7f9;border-bottom:1px solid var(--line)}
+.lab-head{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:32px}
+.lab-kicker{display:block;color:var(--teal);font-size:14px;font-weight:760;margin-bottom:10px}
+.lab-head h2{font-size:clamp(34px,4vw,54px);letter-spacing:-.045em;margin:0}
+.lab-head p{color:var(--muted);font-size:18px;line-height:1.65;margin:10px 0 0}
+.lab-boundary{min-width:310px;padding:17px 20px;border-left:4px solid var(--amber);background:#fff9ed}
+.lab-boundary strong,.lab-boundary span{display:block}.lab-boundary span{color:#6b5a3b;font-size:13px;margin-top:5px}
+.lab-workspace{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr);border:1px solid #c9d8de;background:#fff;box-shadow:0 20px 45px rgba(23,50,77,.08)}
+.lab-form{padding:30px 32px;border-right:1px solid var(--line)}
+.lab-form h3,.evidence-card h3{font-size:20px;margin:0 0 22px}
+.lab-form label{display:block;color:var(--muted);font-size:13px;font-weight:650;margin-bottom:16px}
+.lab-form input,.lab-form textarea,.lab-form select{width:100%;display:block;margin-top:7px;border:1px solid #b9cbd2;background:#fff;color:var(--navy);padding:11px 12px;border-radius:0;font:inherit;font-size:15px;line-height:1.45}
+.lab-form textarea{resize:vertical}
+.lab-form input:focus,.lab-form textarea:focus,.lab-form select:focus{outline:3px solid #d9eef0;border-color:var(--teal)}
+.lab-field-row{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.lab-form fieldset{border:0;border-top:1px solid var(--line);padding:20px 0 4px;margin:2px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.lab-form legend{padding:18px 0 0;font-size:17px;font-weight:760}
+.lab-form .check-row{display:flex;align-items:center;gap:9px;color:var(--navy);font-weight:560}
+.lab-form .check-row input{width:17px;height:17px;margin:0;accent-color:var(--teal)}
+.data-warning{color:#72501b;background:#fff9ed;border-left:3px solid var(--amber);font-size:13px;line-height:1.55;padding:11px 13px;margin:8px 0 18px}
+.lab-generate{width:100%;border:0;background:var(--teal);color:#fff;padding:14px 20px;font-weight:760;cursor:pointer}
+.lab-generate:hover{background:#076b76}
+.lab-feedback{display:block;text-align:center;color:var(--navy);font-size:13px;text-underline-offset:4px;margin-top:14px}
+.evidence-card{padding:30px 32px;background:#f9fbfc;position:relative}
+.evidence-card.generated{background:#fff}
+.card-top{display:flex;justify-content:space-between;align-items:center;padding-bottom:18px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.card-top span{font-size:12px;letter-spacing:.08em;color:var(--teal);font-weight:800}
+.card-top strong{font-size:34px;line-height:1;color:var(--amber)}
+.evidence-card dl{margin:0}.evidence-card dl>div{display:grid;grid-template-columns:98px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.evidence-card dt{color:var(--muted);font-size:13px}.evidence-card dd{margin:0;line-height:1.55}
+.card-alert,.card-next{margin-top:18px;padding:15px 17px;background:#e9f4f5;border-left:4px solid var(--teal)}
+.card-alert.stop{background:#fff0ed;border-color:#c6533f;color:#6f2e22}
+.card-alert strong,.card-next strong{display:block;margin-bottom:7px}.card-alert p,.card-next p{margin:4px 0;line-height:1.55}
+.card-next{background:#edf2f5;border-color:var(--navy)}
+.evidence-card>small{display:block;color:var(--muted);line-height:1.5;margin-top:18px}
+@media(max-width:1000px){.lab-workspace{grid-template-columns:1fr}.lab-form{border-right:0;border-bottom:1px solid var(--line)}}
+@media(max-width:700px){.lab-section{padding-top:52px;padding-bottom:54px}.lab-head{display:block}.lab-boundary{min-width:0;margin-top:22px}.lab-form,.evidence-card{padding:24px 20px}.lab-field-row,.lab-form fieldset{grid-template-columns:1fr}.evidence-card dl>div{grid-template-columns:1fr;gap:5px}.lab-head p{font-size:16px}}

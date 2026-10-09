@@ -35,6 +35,13 @@
 5. Feedback ledger：记录反馈者角色、场景、问题严重度、修改决定和版本。
 6. Claim checker：检查 README、Demo 和网站是否把计划、内部测试或投稿误写成临床结论。
 
+### 当前实现状态（2026-10-10）
+
+- 已实现：Intended-use builder、Evidence card、Safety gate、L0–L5 原型提示、禁止用途拦截。
+- 已实现：规则自动化测试、公开反馈 Issue 模板、v0.1 反馈方案和版本记录。
+- 待实现：独立 Evaluation plan 生成器、Feedback ledger 页面、Claim checker。
+- 尚未验证：真实用户可用性、临床有效性、监管状态和生产环境安全。
+
 ## 公开 Demo 的数据与伦理边界
 
 - 仅使用合成病例、公开许可样例或去标识后的虚构场景。
