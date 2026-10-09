@@ -110,7 +110,7 @@ export default function SafetyLab() {
         <button type="submit">保存到本地台账</button>
         {feedbackStatus && <p className={feedbackStatus.includes('未保存') ? 'ledger-error' : 'ledger-success'}>{feedbackStatus}</p>}
       </form>
-      <div className="ledger-list"><div className="ledger-title"><h3>当前浏览器中的反馈</h3><span>{ledger.length} 条</span></div>{ledger.length === 0 ? <p className="empty-state">尚无本地反馈。正式公开反馈请使用 GitHub Issue 模板。</p> : ledger.map(item => <article key={item.id}><span>{item.severity}</span><strong>{item.issue}</strong><p>{item.action}</p><small>{item.role} · {item.status}</small></article>)}</div>
+      <div className="ledger-list"><div className="ledger-title"><h3>当前浏览器中的反馈</h3><div><span>{ledger.length} 条</span>{ledger.length > 0 && <button type="button" onClick={() => { setLedger([]); setFeedbackStatus('本地反馈已清空。'); }}>清空本地记录</button>}</div></div>{ledger.length === 0 ? <p className="empty-state">尚无本地反馈。正式公开反馈请使用 GitHub Issue 模板。</p> : ledger.map(item => <article key={item.id}><span>{item.severity}</span><strong>{item.issue}</strong><p>{item.action}</p><small>{item.role} · {item.status}</small></article>)}</div>
     </div>}
 
     {tool === 'claims' && <div className="lab-module claim-module">
