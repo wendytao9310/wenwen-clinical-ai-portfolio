@@ -74,7 +74,7 @@ function App() {
       <nav className={menuOpen ? 'open' : ''} aria-label="主导航">
         {nav.map(([label, id]) => <button key={id} onClick={() => scrollTo(id)}>{label}</button>)}
       </nav>
-      <a className="header-resume" href={asset('陶文文_临床AI产品与解决方案_简历_V2.pdf')} download>下载求职简历</a>
+      <a className="header-resume" href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载求职简历</a>
     </header>
 
     <main id="top">
@@ -84,7 +84,7 @@ function App() {
           <p>我从临床与业务约束出发，定义数据、工作流与安全门槛，再用 AI 与 Coding 把方案做成可测试产品。</p>
           <div className="hero-actions">
             <button className="primary" onClick={() => scrollTo('cockpit')}>查看旗舰案例 <ArrowIcon/></button>
-            <a className="secondary" href={asset('陶文文_临床AI产品与解决方案_简历_V2.pdf')} download>下载求职简历</a>
+            <a className="secondary" href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载求职简历</a>
           </div>
         </div>
         <div className="hero-person">
@@ -173,7 +173,7 @@ function App() {
     <footer id="contact" className="site-footer section-shell">
       <div><span>联系</span><h2>期待与优秀的团队一起，<br/>用 AI 解决真实的临床问题。</h2></div>
       <div className="footer-actions">
-        <a href={asset('陶文文_临床AI产品与解决方案_简历_V2.pdf')} download>下载求职简历</a>
+        <a href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载求职简历</a>
         <a href="mailto:wendytao0310@gmail.com">邮件联系</a>
         <a href="https://wendytao9310.github.io/wenwen-academic-site/" target="_blank" rel="noreferrer">学术网站</a>
       </div>
