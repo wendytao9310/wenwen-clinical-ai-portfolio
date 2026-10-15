@@ -1,0 +1,11 @@
+{
+  "name": "SIM · 被看见，也被好好关照",
+  "short_name": "SIM",
+  "description": "有连续记忆、共同场景和关照洞察的 AI 情感陪伴应用",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#111326",
+  "theme_color": "#111326",
+  "orientation": "portrait-primary",
+  "icons": [{"src":"./sim-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

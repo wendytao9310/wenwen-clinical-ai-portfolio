@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-15 · Product portfolio redesign
+
+- Rebuilt the landing page around three demonstrable products rather than résumé-style text blocks.
+- Added interface-first previews, explicit contribution/proof/status fields, and a runnable Evidence & Safety Lab entry above the fold.
+- Embedded the complete SIM companion PWA under the same GitHub Pages deployment, including multiple scenes and user-controlled local memory.
+- Added BPlus workflow evidence, health-cockpit architecture, career progression, and product validation boundaries.
+- Replaced external font loading with a system font stack for a more reliable public deployment.
+
 ## 2026-10-13
 
 - 将公开求职简历升级为 V3“临床 AI 产品构建者”版本。

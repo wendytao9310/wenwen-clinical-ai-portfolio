@@ -1,185 +1,26 @@
 import { useState } from 'react';
 import SafetyLab from './SafetyLab.jsx';
 
-const nav = [
-  ['价值主张', 'value'], ['旗舰案例', 'cockpit'], ['产品证据', 'evidence'],
-  ['经历', 'journey'], ['产品 Demo', 'lab'], ['联系', 'contact']
+const projects = [
+  {key:'evidence',number:'01',title:'Clinical AI Evidence & Safety Lab',subtitle:'把临床 AI 的用途、证据缺口和安全门槛做成可操作工具',problem:'团队会做模型 Demo，却常缺少用途边界、证据等级、人工复核和上线前评测。',role:'产品定义、规则设计、前端实现、测试与开源交付',proof:'公开产品 · 合成数据 · 8 项自动测试 · 人工复核门槛',status:'公开 Demo v0.2',action:'进入可运行 Demo',target:'#lab',preview:'evidence'},
+  {key:'bplus',number:'02',title:'BPlus 多模态实验工作流',subtitle:'把复杂的神经科学实验流程做成配置驱动的软件系统',problem:'协议、任务、设备同步、质量控制和报告依赖人工串联，容易漏项且难以追溯。',role:'产品架构、实验工作流、状态机、QC 与结果报告',proof:'可运行软件 · 合成数据 · 自动测试 · DEMO/PILOT/REAL 门控',status:'软件验证完成；真机待验证',action:'查看产品预览',target:'#bplus',preview:'bplus'},
+  {key:'sim',number:'03',title:'SIM 情感陪伴 PWA',subtitle:'从陪伴、日常关照到专业支持导航的多场景消费产品',problem:'许多情绪产品停留在答题或聊天，缺少持续关系感、用户控制和分级支持。',role:'产品策略、场景设计、对话体验、隐私控制与前端实现',proof:'三核心页面 · 四种生活场景 · 本地记忆控制 · 可安装 PWA',status:'实验性消费产品',action:'打开完整 PWA',target:'sim-demo/index.html',preview:'sim'}
 ];
-
-const capability = [
-  ['临床一线', '真实问题与场景'], ['商业判断', '可行性与价值评估'],
-  ['数据治理', '数据标准与合规'], ['AI 产品架构', '模型与系统设计'],
-  ['软件验证', '可测试与可迭代']
-];
-
-const caseTabs = {
-  '市场现状': {
-    title: '健康座舱正在从舒适功能走向状态感知。',
-    body: '奔驰已将行程、车辆与穿戴信息用于推荐舒缓方案；车载 AI 公司正在构建上下文助手与专用 Agent。真实机会不是增加一个聊天入口，而是让健康状态、安全规则与座舱执行形成闭环。'
-  },
-  '产品缺口': {
-    title: '功能很多，但临床语义、数据质量和输出责任仍容易割裂。',
-    body: '单一疲劳、情绪或生命体征信号难以支持复杂健康决策。功能分别建设也会造成重复数据接口、知识来源不一致、模型不可验证，以及高风险任务缺少人工升级。'
-  },
-  '我的设计': {
-    title: '先定义状态、任务和风险，再选择模型。',
-    body: '我将需求拆为 6 大能力板块和 34 项功能，以多模态状态层为共同输入，通过动态 Prompt、功能 Agent、Tool、RAG、Memory、Verifier 与反馈闭环形成统一 AI 中枢。'
-  },
-  '验证边界': {
-    title: '产品架构已经形成，量产和临床有效性仍需逐层验证。',
-    body: '当前证据支持产品与技术方案、研究工作流和软件 Demo，不代表整车部署或临床有效性。后续应以数据可得性、误报成本、延迟、隐私、专家评估和 A/B 测试建立准入门槛。'
-  }
-};
-
-const layers = [
-  ['应用层', '健康建议与场景应用'], ['智能体层', '任务规划与状态协同'],
-  ['模型层', '多模态模型与能力调用'], ['数据层', '临床数据与知识库'],
-  ['治理层', '数据治理与权限管理'], ['安全层', '内容安全与风险控制'],
-  ['评估层', '效果评估与持续迭代'], ['基础设施层', '部署与工程化支撑']
-];
-
-const journey = [
-  ['临床与医学背景', '理解医生、患者、医保和安全责任，判断需求是否适合真实工作流。'],
-  ['业务与产品', '从市场、竞争、政策和技术壁垒判断一项能力是否值得建设。'],
-  ['AI 与数据', '把多模态临床数据转化为 Schema、QC、数据字典和模型输入。'],
-  ['产品架构', '把分散功能组织为 Agent、Tool、RAG、Verifier 和反馈闭环。'],
-  ['工程与落地', '使用 AI 与 Coding 把规则做成软件、测试、报告和迭代证据。']
-];
-
-const risk = [
-  ['时间分布变化', '模型在历史数据上有效，不代表面对后续患者仍可信。'],
-  ['校准与不确定性', '产品不仅要给结果，也要表达置信边界与人工复核条件。'],
-  ['临床边界', '群体关联不能直接替代个体预测、诊断或治疗分配。']
-];
-
-function ArrowIcon() {
-  return <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11M11 6l4 4-4 4" /></svg>;
+const career=[['临床医学','理解医生、患者和真实诊疗限制'],['产业与投资','判断市场、竞争与产品机会'],['精神科数据','把多模态数据变成可治理资产'],['神经调控','理解评估—干预—随访闭环'],['AI 产品','把规则做成可运行、可测试的软件']];
+function Arrow({external=false}){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d={external?'M8 16 16 8M10 8h6v6':'M5 12h13M14 7l5 5-5 5'}/></svg>}
+function ProductPreview({type,hero=false}){
+  if(type==='sim')return <div className="product-preview sim-preview"><img src={`${import.meta.env.BASE_URL}sim-preview.png`} alt="SIM 情感陪伴产品界面"/><div className="preview-caption"><span>陪伴对话</span><span>日常关照</span><span>支持导航</span></div></div>;
+  if(type==='bplus')return <div className="product-preview bplus-preview" id="bplus"><div className="mock-sidebar"><b>B+</b><span className="active">工作台</span><span>实验运行</span><span>数据质量</span><span>结果中心</span></div><div className="mock-main"><div className="mock-top"><strong>多模态会话 QC</strong><span>DEMO MODE</span></div><div className="signal-grid"><div className="brain-tile"><i/><i/><i/><i/></div><div className="signals">{[1,2,3].map(x=><svg key={x} viewBox="0 0 180 38"><polyline points="0,20 12,18 25,24 38,9 50,27 63,18 78,20 91,6 105,28 120,16 136,22 151,11 166,23 180,18"/></svg>)}</div></div><div className="qc-row"><span><b>6/6</b> 模块就绪</span><span><b>PASS</b> 合成数据 QC</span><span><b>HOLD</b> 真实硬件</span></div></div></div>;
+  return <div className={`product-preview evidence-preview ${hero?'hero-console':''}`}><div className="mock-sidebar"><b>ES</b><span className="active">准入工作台</span><span>证据卡</span><span>安全评估</span><span>评估计划</span><span>反馈台账</span></div><div className="mock-main"><div className="mock-top"><strong>Clinical AI Evidence &amp; Safety Lab</strong><span>v0.2</span></div><div className="console-grid"><div className="console-summary"><small>产品准入状态</small><strong>需要补充证据</strong><div className="bar-chart">{[48,72,58,84,39].map((h,i)=><i key={i} style={{height:`${h}%`}}/>)}</div></div><div className="console-list"><small>关键检查</small><p><i className="ok"/>预期用途已限定</p><p><i/>外部验证待完成</p><p><i/>亚组与漂移监测待完成</p></div><div className="console-risk"><small>安全门槛</small><strong>人工复核</strong><p>高风险输出不得自动进入临床流程。</p></div></div><div className="console-footer"><span>合成数据</span><span>Claim Checker</span><span>Human review</span></div></div></div>;
 }
-
-function App() {
-  const asset = (name) => `${import.meta.env.BASE_URL}${name}`;
-  const [activeTab, setActiveTab] = useState('我的设计');
-  const [openBoundary, setOpenBoundary] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setMenuOpen(false);
-  };
-
-  return <>
-    <header className="site-header">
-      <a className="brand" href="#top" onClick={() => scrollTo('top')}>陶文文 <span>Wenwen Tao</span></a>
-      <button className="menu-button" aria-label="切换导航" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}><span/><span/></button>
-      <nav className={menuOpen ? 'open' : ''} aria-label="主导航">
-        {nav.map(([label, id]) => <button key={id} onClick={() => scrollTo(id)}>{label}</button>)}
-      </nav>
-      <a className="header-resume" href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载求职简历</a>
-    </header>
-
-    <main id="top">
-      <section className="hero">
-        <div className="hero-copy">
-          <h1><span>把真实临床问题，</span><span>做成可验证的 AI 产品。</span></h1>
-          <p>我从临床与业务约束出发，定义数据、工作流与安全门槛，再用 AI 与 Coding 把方案做成可测试产品。</p>
-          <div className="hero-actions">
-            <button className="primary" onClick={() => scrollTo('cockpit')}>查看旗舰案例 <ArrowIcon/></button>
-            <a className="secondary" href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载求职简历</a>
-          </div>
-        </div>
-        <div className="hero-person">
-          <img src={asset('portrait.webp')} alt="陶文文职业肖像" />
-          <div className="identity">
-            <strong>陶文文<br/>Wenwen Tao</strong>
-            <span>Clinical AI Product<br/>Medical AI Solutions<br/>AI Data Product<br/>Multimodal Agent</span>
-          </div>
-        </div>
-      </section>
-
-      <section id="value" className="capability-section section-shell">
-        <div className="section-label"><span>价值主张</span></div>
-        <div className="capability-rail">
-          {capability.map(([title, text], i) => <div className="capability-step" key={title}>
-            <span className="step-mark">{i + 1}</span><div><strong>{title}</strong><small>{text}</small></div>
-            {i < capability.length - 1 && <ArrowIcon/>}
-          </div>)}
-        </div>
-      </section>
-
-      <section id="cockpit" className="case-section section-shell">
-        <div className="section-label"><span>旗舰案例</span></div>
-        <div className="case-heading">
-          <div><h2>Intelligent Health Cockpit</h2><p>面向临床场景的 AI 决策工作台</p></div>
-          <div className="case-tabs" role="tablist">
-            {Object.keys(caseTabs).map(tab => <button role="tab" aria-selected={activeTab === tab} className={activeTab === tab ? 'active' : ''} onClick={() => setActiveTab(tab)} key={tab}>{tab}</button>)}
-          </div>
-        </div>
-        <div className="case-story" role="tabpanel">
-          <span>{activeTab}</span><h3>{caseTabs[activeTab].title}</h3><p>{caseTabs[activeTab].body}</p>
-        </div>
-        <div className="architecture-grid">
-          <div className="domain-map">
-            <h3>6 大能力领域</h3>
-            <div className="domain-row">{['临床洞察','患者管理','治疗支持','知识整合','协作沟通','数据分析'].map(x => <span key={x}>{x}</span>)}</div>
-            <div className="module-count"><strong>34</strong><span>项功能被组织到统一产品架构中</span><i aria-hidden="true">{Array.from({length:17}).map((_,i)=><b key={i}/>)}</i></div>
-          </div>
-          <div className="layer-stack">
-            <h3>8 层 AI 产品架构</h3>
-            {layers.map(([a,b],i)=><div key={a}><em>{i+1}</em><strong>{a}</strong><span>{b}</span></div>)}
-          </div>
-        </div>
-        <button className="boundary-toggle" aria-expanded={openBoundary} onClick={() => setOpenBoundary(!openBoundary)}>
-          <span>验证边界与下一步</span><i>{openBoundary ? '收起' : '展开'}</i>
-        </button>
-        {openBoundary && <div className="boundary-panel"><p>已完成：产品功能地图、系统架构、研究工作流与软件 Demo。</p><p>待验证：整车端云部署、真实用户体验、误报与漏报成本、临床有效性、隐私影响及商业指标。</p></div>}
-      </section>
-
-      <section id="evidence" className="evidence-section section-shell">
-        <div className="section-label"><span>产品证据</span></div>
-        <div className="evidence-heading"><h2>BPlus 软件证据</h2><p>面向真实工作流的 AI 产品设计与验证</p></div>
-        <div className="workflow-frame">
-          <div className="workflow-intro"><strong>从专家流程到可审计软件</strong><p>协议、任务、同步、质量控制、状态解释和报告不再依赖口头经验。</p></div>
-          <div className="workflow-steps">{['数据处理','模型应用','结果呈现','人工审核','迭代优化'].map((x,i)=><div key={x}><span>{String(i+1).padStart(2,'0')}</span><strong>{x}</strong>{i<4&&<ArrowIcon/>}</div>)}</div>
-          <div className="gates"><div><strong>DEMO</strong><span>功能验证</span></div><div><strong>PILOT</strong><span>场景验证</span></div><div className="pending"><strong>REAL</strong><span>实践验证待完成</span></div></div>
-        </div>
-      </section>
-
-      <section id="journey" className="journey-section section-shell">
-        <div className="section-label"><span>经历</span></div>
-        <div className="journey-heading"><h2>从临床问题到 AI 产品的能力演进</h2><p>每段经历都解决了产品价值链中的一个断点。</p></div>
-        <div className="timeline">{journey.map(([title,text],i)=><article key={title}><span>{i+1}</span><strong>{title}</strong><p>{text}</p></article>)}</div>
-      </section>
-
-      <section className="risk-section section-shell">
-        <div className="section-label"><span>模型与风险</span></div>
-        <div className="risk-heading"><h2>我不仅关注模型能不能跑，也关注它何时会失效。</h2></div>
-        <div className="risk-list">{risk.map(([title,text],i)=><article key={title}><span>0{i+1}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}</div>
-        <div className="manuscript-evidence">
-          <span>最新研究证据</span>
-          <div><strong>Task state dominates participant-held-out prediction of risky decisions in methamphetamine dependence, with limited incremental value from pre-decision EEG.</strong><p>Submitted to <em>Clinical EEG and Neuroscience</em>。这项工作提醒产品团队：跨被试预测必须与任务状态基线比较，并单独验证 EEG 是否真正带来增量价值。</p></div>
-        </div>
-      </section>
-
-      <section id="building" className="building-section section-shell">
-        <div className="section-label"><span>正在构建</span></div>
-        <div className="build-copy"><h2>Clinical AI Evidence &amp; Safety Lab</h2><p>面向临床 AI 的证据、安全和产品准入开源工具。</p></div>
-        <div className="roadmap" aria-label="产品路线图">{['需求定义','核心功能开发','内部测试','开源发布','持续迭代'].map((x,i)=><div className={i<3?'done':i===3?'current':''} key={x}><span/>{x}</div>)}</div>
-        <div className="status"><span>当前状态</span><strong>v0.2 内测</strong></div>
-      </section>
-
-      <SafetyLab />
-    </main>
-
-    <footer id="contact" className="site-footer section-shell">
-      <div><span>联系</span><h2>期待与优秀的团队一起，<br/>用 AI 解决真实的临床问题。</h2></div>
-      <div className="footer-actions">
-        <a href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载求职简历</a>
-        <a href="mailto:wendytao0310@gmail.com">邮件联系</a>
-        <a href="https://wendytao9310.github.io/wenwen-academic-site/" target="_blank" rel="noreferrer">学术网站</a>
-      </div>
-      <p>© 2026 Wenwen Tao · Clinical AI product portfolio</p>
-    </footer>
-  </>;
+export default function App(){
+  const asset=name=>`${import.meta.env.BASE_URL}${name}`;const[menu,setMenu]=useState(false);const go=id=>{document.querySelector(id)?.scrollIntoView({behavior:'smooth'});setMenu(false)};
+  return <><header className="site-header"><a className="brand" href="#top"><strong>Wenwen Tao</strong><span>Clinical AI Product Builder</span></a><button className="menu-button" aria-label="切换导航" aria-expanded={menu} onClick={()=>setMenu(!menu)}><span/><span/></button><nav className={menu?'open':''}><button onClick={()=>go('#work')}>产品作品</button><button onClick={()=>go('#lab')}>可运行实验室</button><button onClick={()=>go('#about')}>关于我</button></nav><a className="text-link" href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载简历 <Arrow/></a></header>
+  <main id="top"><section className="hero"><div className="hero-copy"><h1>把临床判断，变成可以运行、测试和迭代的 AI 产品。</h1><p>我连接临床需求、产品决策、数据治理与软件实现。这里展示的不是概念清单，而是可以体验、检查并继续迭代的产品。</p><div className="hero-actions"><button onClick={()=>go('#work')}>查看产品作品 <Arrow/></button><button className="quiet" onClick={()=>go('#lab')}>直接体验 Demo</button></div><dl className="hero-facts"><div><dt>临床背景</dt><dd>医生与精神健康研究</dd></div><div><dt>构建能力</dt><dd>AI-assisted coding</dd></div><div><dt>产品原则</dt><dd>证据与安全优先</dd></div></dl></div><button className="hero-product" onClick={()=>go('#lab')} aria-label="打开 Evidence & Safety Lab"><ProductPreview type="evidence" hero/><span>打开这件作品 <Arrow/></span></button></section>
+  <section id="work" className="work-section page-shell"><div className="section-intro"><div><span>Selected work</span><h2>用产品回答“你能做什么”。</h2></div><p>每个案例都说明真实问题、我的职责、可检查的交付和当前验证边界。</p></div><div className="project-list">{projects.map(project=><article className={`project project-${project.key}`} key={project.key}><div className="project-meta"><span>{project.number}</span><div><h3>{project.title}</h3><p>{project.subtitle}</p></div></div><ProductPreview type={project.preview}/><div className="project-detail"><dl><div><dt>产品问题</dt><dd>{project.problem}</dd></div><div><dt>我的角色</dt><dd>{project.role}</dd></div><div><dt>能力证据</dt><dd>{project.proof}</dd></div><div><dt>当前状态</dt><dd>{project.status}</dd></div></dl>{project.target.startsWith('#')?<button onClick={()=>go(project.target)}>{project.action} <Arrow/></button>:<a href={asset(project.target)} target="_blank" rel="noreferrer">{project.action} <Arrow external/></a>}</div></article>)}</div></section>
+  <section className="evidence-strip page-shell"><div><span>可验证构建流程</span><h2>从代码到临床边界，每一层都有证据。</h2></div><ol>{[['GitHub','版本与变更记录'],['自动测试','规则和数据处理'],['软件 Demo','真实交互路径'],['合成数据','保护患者隐私'],['人工复核','高风险输出门槛']].map(([a,b])=><li key={a}><strong>{a}</strong><span>{b}</span></li>)}</ol></section>
+  <section className="cockpit-case page-shell"><div className="cockpit-copy"><span>产品架构案例</span><h2>智能健康座舱：不是堆功能，而是建立可验证的 AI 中枢。</h2><p>将多模态状态、动态 Prompt、Agent、Tool、RAG、Memory、Verifier、Fallback 与人工升级组织成统一架构，服务健康建议、情绪识别、风险升级和长期管理。</p><div className="boundary-note"><strong>当前边界</strong><span>已完成产品与技术架构方案；量产部署、真实用户体验和临床有效性待验证。</span></div></div><div className="architecture"><div className="domain-wheel"><strong>6</strong><span>能力领域</span></div><div className="architecture-layers">{['多模态状态','动态 Prompt','Agent 编排','Tool · RAG · Memory','Verifier · Fallback','反馈与人工升级'].map((x,i)=><div key={x}><span>{i+1}</span><strong>{x}</strong></div>)}</div></div></section>
+  <SafetyLab/>
+  <section id="about" className="about-section page-shell"><div className="about-copy"><span>为什么是我</span><h2>我经历过医疗产品价值链上最容易断裂的几个环节。</h2><p>AI 工具放大的不是“会写 Prompt”，而是我对临床问题、数据质量、用户采用、安全门槛与商业可行性的联合判断。</p><a href={asset('陶文文_临床AI产品构建者_简历_V3_公开版.pdf')} download>下载完整简历 <Arrow/></a></div><div className="career-line">{career.map(([title,text],i)=><div key={title}><span>{String(i+1).padStart(2,'0')}</span><strong>{title}</strong><p>{text}</p></div>)}</div></section></main>
+  <footer className="site-footer page-shell"><div><h2>如果你也在把 AI 带进真实的医疗与健康场景，我们可以聊聊。</h2><p>Clinical AI · Digital Health · Neurotechnology · AI Product</p></div><div className="footer-links"><a href="mailto:wendytao0310@gmail.com">wendytao0310@gmail.com</a><a href="https://github.com/wendytao9310" target="_blank" rel="noreferrer">GitHub <Arrow external/></a><a href="https://wendytao9310.github.io/wenwen-academic-site/" target="_blank" rel="noreferrer">学术网站 <Arrow external/></a></div></footer></>;
 }
-
-export default App;

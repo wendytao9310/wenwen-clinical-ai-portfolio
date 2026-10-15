@@ -22,6 +22,9 @@ npm run build
 
 ## 当前内容
 
+- 产品工作室式首页：首先展示可运行界面与个人交付角色，不再以长篇履历开场
+- 三件重点作品：Evidence & Safety Lab、BPlus 多模态实验工作流、SIM 情感陪伴 PWA
+- SIM 完整体验已嵌入本站，包括陪伴对话、日常关照、支持导航和四种生活场景
 - 商业化价值主张与能力链
 - Intelligent Health Cockpit 旗舰案例
 - BPlus 软件证据与 DEMO / PILOT / REAL 验证边界
