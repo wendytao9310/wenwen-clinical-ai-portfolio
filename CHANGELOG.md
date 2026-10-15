@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-16 · Personal introduction
+
+- Expanded the hero introduction with Wenwen Tao's clinical-AI product positioning.
+- Added an early-page personal narrative connecting clinical work, healthcare research, multimodal data, neurotechnology, and AI product building.
+- Added a portrait and four concise product perspectives: user need, business value, evidence organization, and delivery closure.
+- Verified the new section at desktop and 390 px mobile widths.
+
 ## 2026-10-15 · Product portfolio redesign
 
 - Rebuilt the landing page around three demonstrable products rather than résumé-style text blocks.
