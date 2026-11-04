@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { checkClaims, generateEvaluationPlan, screenFeedback } from './productEngine.js';
+import { buildAuditReport, checkClaims, generateEvaluationPlan, screenFeedback } from './productEngine.js';
 
 test('holds evaluation when safety blockers exist', () => {
   const plan = generateEvaluationPlan({ intendedUse: '自动诊断' }, { level: 'L5', blockers: ['禁止自动诊断'], gaps: [] });
@@ -33,4 +33,15 @@ test('accepts bounded demo wording', () => {
 test('rejects feedback that appears to contain patient identifiers', () => {
   const result = screenFeedback({ issue: '患者姓名：张三', action: '优化界面' });
   assert.equal(result.accepted, false);
+});
+
+test('exports an auditable report with boundaries and gaps', () => {
+  const report = buildAuditReport(
+    { title: 'Synthetic model', intendedUser: 'Product team', intendedUse: 'Compare aggregate performance', dataLevel: 'synthetic', decisionRole: 'workflow' },
+    { status: 'REVIEW', level: 'L2', title: 'Controlled review', review: 'Human review', blockers: [], gaps: ['External validation missing'] },
+    { status: 'DRAFT', tests: ['Run bad-case testing'], releaseGate: 'Close evidence gaps' }
+  );
+  assert.match(report, /Synthetic model/);
+  assert.match(report, /External validation missing/);
+  assert.match(report, /not a regulatory classification/i);
 });

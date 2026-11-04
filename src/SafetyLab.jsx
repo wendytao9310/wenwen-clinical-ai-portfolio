@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { assessScenario } from './safetyEngine.js';
-import { checkClaims, generateEvaluationPlan, screenFeedback } from './productEngine.js';
+import { buildAuditReport, checkClaims, generateEvaluationPlan, screenFeedback } from './productEngine.js';
 
 const initialScenario = {
   title: '合成数据模型评估工作台',
@@ -23,6 +23,18 @@ const checklist = [
   ['monitoring', '监测、回滚与退役']
 ];
 
+const presets = {
+  research: initialScenario,
+  wellness: {
+    title: '情绪自我关照助手', intendedUser: '普通成年用户', intendedUse: '提供非诊疗性质的情绪记录、反思提示和专业帮助导航',
+    dataLevel: 'synthetic', decisionRole: 'information', harm: 'medium', oversight: 'general', externalValidation: false, calibration: false, subgroups: false, monitoring: true
+  },
+  clinical: {
+    title: '出院风险提示研究', intendedUser: '经授权的临床研究团队', intendedUse: '研究汇总队列中的风险分层表现，不向患者或医生提供自动诊疗建议',
+    dataLevel: 'aggregate', decisionRole: 'support', harm: 'high', oversight: 'professional', externalValidation: true, calibration: true, subgroups: true, monitoring: false
+  }
+};
+
 export default function SafetyLab() {
   const [scenario, setScenario] = useState(initialScenario);
   const [generated, setGenerated] = useState(false);
@@ -30,6 +42,8 @@ export default function SafetyLab() {
   const [claimText, setClaimText] = useState('这是使用合成数据的软件 Demo，尚未完成真实用户与临床验证。');
   const [feedback, setFeedback] = useState({ role: '医疗 AI / 数据人员', severity: 'S3 体验问题', issue: '', action: '' });
   const [feedbackStatus, setFeedbackStatus] = useState('');
+  const [session, setSession] = useState({ task: '完成场景定义并导出评测报告', completed: '', duration: '', difficulty: '3', note: '' });
+  const [sessionStatus, setSessionStatus] = useState('');
   const [ledger, setLedger] = useState(() => {
     try { return JSON.parse(localStorage.getItem('clinical-ai-feedback-ledger') || '[]'); }
     catch { return []; }
@@ -50,11 +64,25 @@ export default function SafetyLab() {
     setLedger(current => [{ ...feedback, id: Date.now(), status: '待评审' }, ...current].slice(0, 20));
     setFeedback(current => ({ ...current, issue: '', action: '' }));
   };
+  const loadPreset = key => { setScenario({ ...presets[key] }); setGenerated(false); setTool('gate'); };
+  const downloadReport = () => {
+    const blob = new Blob([buildAuditReport(scenario, result, plan)], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url; link.download = 'evidence-safety-report.md'; link.click(); URL.revokeObjectURL(url);
+  };
+  const saveSession = event => {
+    event.preventDefault();
+    if (!session.completed || !session.duration) { setSessionStatus('请先填写任务是否完成和实际用时。'); return; }
+    const records = JSON.parse(localStorage.getItem('clinical-ai-usability-sessions') || '[]');
+    localStorage.setItem('clinical-ai-usability-sessions', JSON.stringify([{ ...session, id: Date.now() }, ...records].slice(0, 30)));
+    setSessionStatus('本次真实测试记录已保存在当前浏览器，可继续填写反馈台账。');
+  };
 
   return <section id="lab" className="lab-section section-shell">
     <div className="lab-head">
       <div>
-        <span className="lab-kicker">可运行产品 Demo · v0.2</span>
+        <span className="lab-kicker">可运行产品 Demo · v0.3</span>
         <h2>Evidence &amp; Safety Lab</h2>
         <p>把临床 AI 的用途、证据缺口与安全边界整理成一张可审计的准入卡。</p>
       </div>
@@ -62,12 +90,13 @@ export default function SafetyLab() {
     </div>
 
     <div className="lab-tools" role="tablist" aria-label="产品工具">
-      {[['gate','安全准入卡'],['plan','评估计划'],['ledger','反馈台账'],['claims','Claim Checker']].map(([key,label]) => <button key={key} role="tab" aria-selected={tool === key} className={tool === key ? 'active' : ''} onClick={() => setTool(key)}>{label}</button>)}
+      {[['gate','安全准入卡'],['plan','评估计划'],['session','可用性测试'],['ledger','反馈台账'],['claims','Claim Checker']].map(([key,label]) => <button key={key} role="tab" aria-selected={tool === key} className={tool === key ? 'active' : ''} onClick={() => setTool(key)}>{label}</button>)}
     </div>
 
     {tool === 'gate' && <div className="lab-workspace">
       <form className="lab-form" onSubmit={event => { event.preventDefault(); setGenerated(true); }}>
         <h3>01 定义使用场景</h3>
+        <div className="preset-row" aria-label="载入示例场景"><button type="button" onClick={() => loadPreset('research')}>模型研究</button><button type="button" onClick={() => loadPreset('wellness')}>情绪关照</button><button type="button" onClick={() => loadPreset('clinical')}>高风险研究</button></div>
         <label>产品/研究名称<input value={scenario.title} onChange={e => update('title', e.target.value)} /></label>
         <label>预期用户<input value={scenario.intendedUser} onChange={e => update('intendedUser', e.target.value)} /></label>
         <label>预期用途<textarea rows="3" value={scenario.intendedUse} onChange={e => update('intendedUse', e.target.value)} /></label>
@@ -90,6 +119,7 @@ export default function SafetyLab() {
         {result.blockers.length > 0 && <div className="card-alert stop"><strong>停止条件</strong>{result.blockers.map(item => <p key={item}>{item}</p>)}</div>}
         <div className="card-alert"><strong>验证缺口</strong>{result.gaps.length ? result.gaps.map(item => <p key={item}>{item}</p>) : <p>当前声明项无缺口，仍需人工确认来源与适用范围。</p>}</div>
         <div className="card-next"><strong>建议下一步</strong><p>{result.blockers.length ? '移除禁止用途与数据后重新评估。' : '用合成/汇总数据完成 Bad Case、可用性与专家复核，并记录版本和变更。'}</p></div>
+        <button type="button" className="report-download" onClick={downloadReport}>下载完整评测报告（Markdown）</button>
         <small>原型建议，不是法规分类、临床结论或合规证明。</small>
       </div>
     </div>}
@@ -98,6 +128,20 @@ export default function SafetyLab() {
       <div className="module-summary"><span>{plan.status}</span><h3>Evaluation Plan</h3><p>{plan.objective}</p></div>
       <div className="evaluation-list"><strong>建议测试与治理任务</strong><ol>{plan.tests.map(item => <li key={item}>{item}</li>)}</ol></div>
       <div className="release-gate"><strong>下一阶段准入条件</strong><p>{plan.releaseGate}</p><small>计划由当前准入卡动态生成，必须经过具名专业人员复核。</small></div>
+    </div>}
+
+    {tool === 'session' && <div className="lab-module session-module">
+      <div className="session-brief"><span>真实体验记录</span><h3>完成一个任务，再记录事实。</h3><p>建议测试者先选择一个示例场景，生成准入卡，查看评估计划并下载报告。这里只记录实际完成情况，不生成虚构指标。</p><ol><li>不接受患者或可识别健康信息</li><li>由测试者独立操作，观察者不代答</li><li>任务结束后再询问困难点</li></ol></div>
+      <form className="session-form" onSubmit={saveSession}>
+        <label>测试任务<input value={session.task} onChange={e => setSession({...session, task:e.target.value})} /></label>
+        <label>是否独立完成<select value={session.completed} onChange={e => setSession({...session, completed:e.target.value})}><option value="">请选择</option><option>是</option><option>否</option><option>部分完成</option></select></label>
+        <label>实际用时（分钟）<input type="number" min="1" max="120" value={session.duration} onChange={e => setSession({...session, duration:e.target.value})} /></label>
+        <label>主观难度（1容易—5困难）<input type="range" min="1" max="5" value={session.difficulty} onChange={e => setSession({...session, difficulty:e.target.value})} /><span>{session.difficulty} / 5</span></label>
+        <label>最困惑或最有价值的地方<textarea rows="4" value={session.note} onChange={e => setSession({...session, note:e.target.value})} /></label>
+        <button type="submit">保存本次真实测试记录</button>
+        {sessionStatus && <p className="session-status">{sessionStatus}</p>}
+      </form>
+      <div className="session-next"><strong>测试完成后</strong><p>继续到“反馈台账”记录严重度、问题与建议修改；公开结果前应去标识化并汇总，不展示个人健康信息。</p></div>
     </div>}
 
     {tool === 'ledger' && <div className="lab-module ledger-module">

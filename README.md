@@ -31,7 +31,7 @@ npm run build
 - 从临床到产品、数据、架构和工程落地的能力演进
 - 临床 AI 模型风险意识
 - Clinical AI Evidence & Safety Lab 产品路线图
-- 可运行的 Evidence & Safety Lab v0.2：预期用途、证据卡、安全门槛、评估计划、反馈台账与 Claim Checker
+- 可运行的 Evidence & Safety Lab v0.3：预设业务场景、预期用途、证据卡、安全门槛、评估计划、报告导出、可用性测试记录、反馈台账与 Claim Checker
 - 求职简历下载、邮件联系和独立学术网站入口
 - 最新投稿研究及其对产品验证的启示（明确标注 Submitted）
 
@@ -47,7 +47,7 @@ npm run build
 
 ## 下一阶段
 
-Evidence & Safety Lab v0.2 已完成合成数据 Demo 和本地反馈闭环。下一阶段按 `docs/FEEDBACK_PROTOCOL.md` 开展 5–8 名专业用户的可用性与安全边界测试，并将确认后的问题写入 GitHub Issues；不会将软件 Demo 表述为临床验证。
+Evidence & Safety Lab v0.3 已完成合成数据 Demo、报告导出和本地测试记录闭环。下一阶段按 `docs/FEEDBACK_PROTOCOL.md` 开展 5–8 名专业用户的可用性与安全边界测试，并使用 `docs/USABILITY_REPORT_TEMPLATE.md` 公开去标识化汇总结果；不会将软件 Demo 表述为临床验证。
 
 ## 自动化检查
 
@@ -56,4 +56,4 @@ npm test
 npm run build
 ```
 
-规则测试覆盖患者级数据拦截、自动诊疗用途拦截、低风险工作流、证据缺口、评估计划、声明检查和反馈隐私筛查。
+规则测试覆盖患者级数据拦截、自动诊疗用途拦截、低风险工作流、证据缺口、评估计划、报告导出、声明检查和反馈隐私筛查。
