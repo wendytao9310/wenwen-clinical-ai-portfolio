@@ -1,6 +1,6 @@
-# 陶文文｜临床 AI 产品与解决方案求职网站
+# 陶文文｜医疗数据产品经理求职网站
 
-这是与学术网站分离的商业化求职网站，核心定位是 **Clinical AI Product Builder**：把临床问题、业务约束、数据治理、AI 产品架构与软件验证连接成可审计的产品闭环。
+这是与学术网站分离的商业化求职网站，核心定位是 **医疗数据产品经理 / 医疗大模型评测产品**：把医学需求转化为数据任务、标签与标准答案、质检规则、模型评测、人工复核和交付 SOP。
 
 - 在线网站：https://wendytao9310.github.io/wenwen-clinical-ai-portfolio/
 - 学术网站：https://wendytao9310.github.io/wenwen-academic-site/
@@ -23,7 +23,8 @@ npm run build
 ## 当前内容
 
 - 产品工作室式首页：首先展示可运行界面与个人交付角色，不再以长篇履历开场
-- 三件重点作品：Evidence & Safety Lab、BPlus 多模态实验工作流、SIM 情感陪伴 PWA
+- 四件重点作品：Medical Data Ops Studio、Evidence & Safety Lab、BPlus 多模态数据工作流、SIM 情感陪伴 PWA
+- 可运行的 Medical Data Ops Studio：合成评测集、双人医学复核、一致率、争议仲裁、安全阻断、质量归因与 SOP 生成
 - SIM 完整体验已嵌入本站，包括陪伴对话、日常关照、支持导航和四种生活场景
 - 商业化价值主张与能力链
 - Intelligent Health Cockpit 旗舰案例
@@ -56,4 +57,4 @@ npm test
 npm run build
 ```
 
-规则测试覆盖患者级数据拦截、自动诊疗用途拦截、低风险工作流、证据缺口、评估计划、报告导出、声明检查和反馈隐私筛查。
+11 项规则测试覆盖双人复核与争议仲裁、患者级数据拦截、自动诊疗用途拦截、低风险工作流、证据缺口、评估计划、报告导出、声明检查和反馈隐私筛查。
